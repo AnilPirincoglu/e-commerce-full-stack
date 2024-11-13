@@ -45,15 +45,17 @@ public class User implements UserDetails, Principal {
     @Column(unique = true)
     private String email;
     private String password;
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+    @Column(name = "account_locked")
     private boolean accountLocked;
     private boolean enabled;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
     @LastModifiedDate
-    @Column(insertable = false)
+    @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
 
     @Override
