@@ -1,0 +1,31 @@
+services:
+  postgres:
+    container_name: postgres-sql-ecommerce
+    image: postgres:17.0-alpine3.20
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: ecommerce
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/data/postgres
+    ports:
+        - "5432:5432"
+    networks:
+      - ecommerce-network
+
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: maildev-ecommerce
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - 1025:1025
+
+networks:
+    ecommerce-network:
+        driver: bridge
+volumes:
+  postgres:
+    driver: local
