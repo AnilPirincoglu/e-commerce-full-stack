@@ -9,8 +9,8 @@ spring:
       ddl-auto: validate
     show-sql: false
     properties:
-        hibernate:
-          format_sql: true
+      hibernate:
+        format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
@@ -32,3 +32,8 @@ spring:
     enabled: true
     clean-disabled: false
     locations: classpath:db/migration
+
+application:
+  security:
+    jwt:
+      expiration: 3600000
