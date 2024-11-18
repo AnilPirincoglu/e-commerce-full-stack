@@ -1,13 +1,18 @@
 package dev.anilp.ecommerce.user;
 
 import dev.anilp.ecommerce.role.Role;
+import dev.anilp.ecommerce.user_role.UserRole;
+import dev.anilp.ecommerce.user_role.UserRoleId;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +30,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,10 +44,12 @@ import java.util.List;
 public class User implements UserDetails, Principal {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstname;
     private String lastname;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Column(unique = true)
     private String email;
     private String password;
@@ -50,6 +58,9 @@ public class User implements UserDetails, Principal {
     @Column(name = "account_locked")
     private boolean accountLocked;
     private boolean enabled;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserRole> userRoles;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -65,9 +76,9 @@ public class User implements UserDetails, Principal {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles
+        return this.userRoles
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getName()))
                 .toList();
     }
 
@@ -103,5 +114,20 @@ public class User implements UserDetails, Principal {
 
     public String getFullName() {
         return firstname + " " + lastname;
+    }
+
+    public void addRole(Role role) {
+        if (this.userRoles == null) {
+            this.userRoles = new HashSet<>();
+        }
+        this.userRoles.add(UserRole.builder()
+                .id(UserRoleId.builder()
+                        .userId(this.id)
+                        .roleId(role.getId())
+                        .build())
+                .user(this)
+                .role(role)
+                .createdAt(LocalDateTime.now())
+                .build());
     }
 }
