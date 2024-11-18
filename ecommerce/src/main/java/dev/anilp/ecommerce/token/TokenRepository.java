@@ -1,4 +1,4 @@
-package dev.anilp.ecommerce.user;
+package dev.anilp.ecommerce.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

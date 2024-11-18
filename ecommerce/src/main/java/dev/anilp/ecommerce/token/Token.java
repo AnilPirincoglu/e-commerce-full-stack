@@ -1,8 +1,10 @@
-package dev.anilp.ecommerce.user;
+package dev.anilp.ecommerce.token;
 
+import dev.anilp.ecommerce.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,9 +23,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Token {
-    
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String token;
     @Column(name = "created_at", updatable = false)
@@ -34,6 +36,6 @@ public class Token {
     private LocalDateTime validatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
