@@ -36,11 +36,9 @@ public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "phone_type", nullable = false)
     private PhoneType phoneType;
-
     @PhoneNumber
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
@@ -48,7 +46,7 @@ public class Phone {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     private User user;
-    
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
