@@ -1,5 +1,6 @@
 package dev.anilp.ecommerce.user;
 
+import dev.anilp.ecommerce.phone.Phone;
 import dev.anilp.ecommerce.role.Role;
 import dev.anilp.ecommerce.user_role.UserRole;
 import dev.anilp.ecommerce.user_role.UserRoleId;
@@ -29,8 +30,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -61,6 +64,9 @@ public class User implements UserDetails, Principal {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Phone> phones = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
