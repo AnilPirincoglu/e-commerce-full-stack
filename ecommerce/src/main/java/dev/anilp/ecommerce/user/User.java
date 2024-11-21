@@ -1,5 +1,6 @@
 package dev.anilp.ecommerce.user;
 
+import dev.anilp.ecommerce.address.Address;
 import dev.anilp.ecommerce.phone.Phone;
 import dev.anilp.ecommerce.role.Role;
 import dev.anilp.ecommerce.user_role.UserRole;
@@ -67,6 +68,9 @@ public class User implements UserDetails, Principal {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
