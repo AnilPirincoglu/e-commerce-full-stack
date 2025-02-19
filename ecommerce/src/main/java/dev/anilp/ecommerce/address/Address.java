@@ -36,6 +36,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
     @Enumerated(EnumType.STRING)
     @Column(name = "address_type", nullable = false)
     private AddressType addressType;
