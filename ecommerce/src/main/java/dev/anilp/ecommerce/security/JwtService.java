@@ -2,6 +2,7 @@ package dev.anilp.ecommerce.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ public class JwtService {
 
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
+    private SecretKey secretKey;
 
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
@@ -77,6 +79,11 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-        return Jwts.SIG.HS256.key().build();
+        if (secretKey == null) {
+            byte[] keyBytes = new byte[64];
+            new java.security.SecureRandom().nextBytes(keyBytes);
+            secretKey = Keys.hmacShaKeyFor(keyBytes);
+        }
+        return secretKey;
     }
 }
