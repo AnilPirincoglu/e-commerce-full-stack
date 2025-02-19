@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS address
 (
     id           BIGSERIAL PRIMARY KEY,
     address_type VARCHAR(6)   NOT NULL CHECK ( address_type IN ('HOME', 'OFFICE', 'OTHER') ),
+    name         VARCHAR(50)  NOT NULL,
     address_line VARCHAR(255) NOT NULL,
     street       VARCHAR(50)  NOT NULL,
     district     VARCHAR(50)  NOT NULL,
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS address
 COMMENT ON TABLE address IS 'Table to store user addresses, including type, line, street, district, city, postal code, and user reference';
 COMMENT ON COLUMN address.id IS 'Unique identifier for the address, generated automatically as a BIGSERIAL';
 COMMENT ON COLUMN address.address_type IS 'Type of address, restricted to HOME, OFFICE, or OTHER';
+COMMENT ON COLUMN address.name IS 'Name of the address, up to 50 characters';
 COMMENT ON COLUMN address.address_line IS 'Detailed address line, up to 255 characters';
 COMMENT ON COLUMN address.street IS 'Street name, up to 50 characters';
 COMMENT ON COLUMN address.district IS 'District name, up to 50 characters';
