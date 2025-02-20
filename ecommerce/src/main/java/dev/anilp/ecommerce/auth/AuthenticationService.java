@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import static dev.anilp.ecommerce.email.EmailTemplateName.ACTIVATE_ACCOUNT;
-import static dev.anilp.ecommerce.exception.ExceptionMessage.DUPLICATE_EMAIL;
+import static dev.anilp.ecommerce.exception.ExceptionMessage.DUPLICATE_RESOURCE;
 import static dev.anilp.ecommerce.exception.ExceptionMessage.EXPIRED;
 import static dev.anilp.ecommerce.exception.ExceptionMessage.INVALID_TOKEN;
 import static dev.anilp.ecommerce.exception.ExceptionMessage.ROLE_NOT_FOUND;
@@ -52,7 +52,7 @@ public class AuthenticationService {
 
         userRepository.findByEmail(request.email())
                 .ifPresent(user -> {
-                    throw new DuplicateResourceException(DUPLICATE_EMAIL.getMessage());
+                    throw new DuplicateResourceException(DUPLICATE_RESOURCE.getMessage());
                 });
 
         var user = User.builder()
