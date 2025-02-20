@@ -67,7 +67,7 @@ public class User implements UserDetails, Principal {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -152,5 +152,17 @@ public class User implements UserDetails, Principal {
                 .role(role)
                 .createdAt(LocalDateTime.now())
                 .build());
+    }
+
+    public void addPhone(Phone phone) {
+        phone.setUser(this);
+        this.phones.add(phone);
+    }
+
+    public void removePhone(Phone phone) {
+        if (phones.contains(phone)) {
+            phone.setUser(null);
+        }
+        this.phones.remove(phone);
     }
 }
