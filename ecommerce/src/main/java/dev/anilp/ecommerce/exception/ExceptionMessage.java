@@ -10,9 +10,8 @@ public enum ExceptionMessage {
     ACCOUNT_LOCKED("User account is locked"),
     USER_NOT_FOUND("User not found"),
     RESOURCE_NOT_FOUND("Resource not found"),
-    ROLE_NOT_FOUND("Role not found"),
-    DUPLICATE_EMAIL("Email already taken"),
     DUPLICATE_RESOURCE("Resource already exists"),
+    ROLE_NOT_FOUND("Role not found"),
     EXPIRED("Token has expired"),
     INVALID_TOKEN("Token is invalid");
 
