@@ -23,7 +23,6 @@ public class AddressServiceImpl implements AddressService {
     private final AddressMapper addressMapper;
 
     @Override
-    @Transactional
     public AddressResponse findById(Long addressId,
                                     Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
@@ -36,7 +35,6 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Transactional
     public List<AddressResponse> findAll(Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         return user.getAddresses().stream()
