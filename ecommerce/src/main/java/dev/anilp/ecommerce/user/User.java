@@ -1,6 +1,7 @@
 package dev.anilp.ecommerce.user;
 
 import dev.anilp.ecommerce.address.Address;
+import dev.anilp.ecommerce.cart.Cart;
 import dev.anilp.ecommerce.phone.Phone;
 import dev.anilp.ecommerce.role.Role;
 import dev.anilp.ecommerce.user_role.UserRole;
@@ -16,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -65,13 +67,16 @@ public class User implements UserDetails, Principal {
     private boolean enabled;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserRole> userRoles;
+    private Set<UserRole> userRoles = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -140,9 +145,6 @@ public class User implements UserDetails, Principal {
     }
 
     public void addRole(Role role) {
-        if (this.userRoles == null) {
-            this.userRoles = new HashSet<>();
-        }
         this.userRoles.add(UserRole.builder()
                 .id(UserRoleId.builder()
                         .userId(this.id)
