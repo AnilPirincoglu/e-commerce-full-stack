@@ -76,7 +76,7 @@ public class User implements UserDetails, Principal {
     private List<Address> addresses = new ArrayList<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart;
+    private Cart cart = new Cart();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
