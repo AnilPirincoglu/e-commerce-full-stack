@@ -65,8 +65,8 @@ public class AuthenticationService {
                 .accountLocked(false)
                 .enabled(false)
                 .build();
-        userRepository.save(user);
         user.addRole(role);
+        userRepository.save(user);
         sendValidationEmail(user);
     }
 
