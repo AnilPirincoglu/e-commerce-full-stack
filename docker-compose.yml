@@ -5,12 +5,12 @@ services:
     environment:
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: pass
-      POSTGRES_DB: ecommerce
+      POSTGRES_DB: e-commerce
       PGDATA: /var/lib/postgresql/data
     volumes:
       - postgres:/data/postgres
     ports:
-        - "5432:5432"
+      - "5432:5432"
     networks:
       - ecommerce-network
 
@@ -24,8 +24,8 @@ services:
       - 1025:1025
 
 networks:
-    ecommerce-network:
-        driver: bridge
+  ecommerce-network:
+    driver: bridge
 volumes:
   postgres:
     driver: local
